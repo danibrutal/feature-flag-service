@@ -49,7 +49,7 @@ export default async function ReportDetailPage({ params }: Props) {
           </p>
           <FeatureGate flags={flags} flag={FLAGS.SHOW_DAMAGE_SEVERITY_BADGE}>
             <p>
-              <strong>Severity:</strong> {report.damageSeverity}
+              <strong>Severity:</strong> {report.damage_severity}
             </p>
           </FeatureGate>
           <FeatureGate flags={flags} flag={FLAGS.SHOW_INTERNAL_NOTES_PANEL}>

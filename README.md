@@ -80,7 +80,6 @@ If a flag changes after the UI is rendered:
 ### 5. Design System Approach
 
 - Custom UI components with CSS Modules.
-- Radix primitives used where needed.
 - No heavy UI framework, keeping control over styling.
 
 ## Notes / Trade-Offs
