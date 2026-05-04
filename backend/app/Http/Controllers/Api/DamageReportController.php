@@ -14,9 +14,9 @@ class DamageReportController extends Controller
         return DamageReport::latest()->get();
     }
 
-    public function show(DamageReport $damageReport)
+    public function show(DamageReport $report)
     {
-        return $damageReport;
+        return $report;
     }
 
     public function store(Request $request, FeatureFlagChecker $checker)
@@ -33,7 +33,7 @@ class DamageReportController extends Controller
         return DamageReport::create($data);
     }
 
-    public function update(Request $request, DamageReport $damageReport, FeatureFlagChecker $checker)
+    public function update(Request $request, DamageReport $report, FeatureFlagChecker $checker)
     {
         $checker->abortIfDisabled('allow_report_update');
 
@@ -44,8 +44,8 @@ class DamageReportController extends Controller
             'damage_severity' => ['required', 'in:low,medium,high'],
         ]);
 
-        $damageReport->update($data);
+        $report->update($data);
 
-        return $damageReport;
+        return $report;
     }
 }
