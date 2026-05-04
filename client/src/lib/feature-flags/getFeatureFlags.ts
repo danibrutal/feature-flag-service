@@ -4,8 +4,11 @@ export async function getFeatureFlags(): Promise<FeatureFlags> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   if (!apiUrl) {
+    console.error("apiUrl not defined");
     return {};
   }
+
+  console.log(apiUrl);
 
   try {
     const response = await fetch(`${apiUrl}/feature-flags`, {
@@ -17,7 +20,8 @@ export async function getFeatureFlags(): Promise<FeatureFlags> {
     }
 
     return response.json();
-  } catch {
+  } catch (error) {
+    console.error("Feature flag fetch failed", error);
     return {};
   }
 }
