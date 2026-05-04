@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { mockReports } from "@/lib/reports/mockReports";
 import { AppShell } from "@/components/layout/AppShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Stack } from "@/components/layout/Stack";
@@ -9,10 +8,11 @@ import { Badge } from "@/components/ui/Badge";
 import { FeatureGate } from "@/lib/feature-flags/FeatureGate";
 import { getFeatureFlags } from "@/lib/feature-flags/getFeatureFlags";
 import { FLAGS } from "@/lib/feature-flags/flags";
+import { getReports } from "@/lib/reports/api";
 
 export default async function ReportsPage() {
   const flags = await getFeatureFlags();
-  console.log("flags!", flags);
+  const reports = await getReports();
 
   return (
     <AppShell>
@@ -29,7 +29,7 @@ export default async function ReportsPage() {
       />
 
       <Stack>
-        {mockReports.map((report) => (
+        {reports.map((report) => (
           <Card key={report.id}>
             <Stack>
               <div>

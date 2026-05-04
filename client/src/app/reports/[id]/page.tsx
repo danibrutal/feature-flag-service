@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { mockReports } from "@/lib/reports/mockReports";
 import { AppShell } from "@/components/layout/AppShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Stack } from "@/components/layout/Stack";
@@ -10,6 +9,7 @@ import { Badge } from "@/components/ui/Badge";
 import { FeatureGate } from "@/lib/feature-flags/FeatureGate";
 import { FLAGS } from "@/lib/feature-flags/flags";
 import { getFeatureFlags } from "@/lib/feature-flags/getFeatureFlags";
+import { getReport } from "@/lib/reports/api";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -17,7 +17,8 @@ type Props = {
 
 export default async function ReportDetailPage({ params }: Props) {
   const { id } = await params;
-  const report = mockReports.find((item) => item.id === id);
+  const report = await getReport(id);
+
   const flags = await getFeatureFlags();
 
   if (!report) {

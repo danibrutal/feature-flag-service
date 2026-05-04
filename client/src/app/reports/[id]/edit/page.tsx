@@ -1,15 +1,10 @@
 import { notFound } from "next/navigation";
-import { mockReports } from "@/lib/reports/mockReports";
 import { AppShell } from "@/components/layout/AppShell";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Stack } from "@/components/layout/Stack";
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
-import { FeatureGate } from "@/lib/feature-flags/FeatureGate";
-import { FLAGS } from "@/lib/feature-flags/flags";
+import { ReportForm } from "@/features/reports/ReportForm";
 import { getFeatureFlags } from "@/lib/feature-flags/getFeatureFlags";
+import { getReport } from "@/lib/reports/api";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -17,7 +12,7 @@ type Props = {
 
 export default async function EditReportPage({ params }: Props) {
   const { id } = await params;
-  const report = mockReports.find((item) => item.id === id);
+  const report = await getReport(id);
   const flags = await getFeatureFlags();
 
   if (!report) {
@@ -32,18 +27,7 @@ export default async function EditReportPage({ params }: Props) {
       />
 
       <Card>
-        <form>
-          <Stack>
-            <Input name="title" defaultValue={report.title} />
-            <Input name="vehicle" defaultValue={report.vehicle} />
-            <Textarea name="description" defaultValue={report.description} />
-            <FeatureGate flags={flags} flag={FLAGS.SHOW_PHOTO_UPLOAD}>
-              <Input type="file" name="photo" />
-            </FeatureGate>
-
-            <Button type="submit">Update report</Button>
-          </Stack>
-        </form>
+        <ReportForm report={report} flags={flags} />
       </Card>
     </AppShell>
   );
