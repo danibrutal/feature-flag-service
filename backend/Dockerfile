@@ -43,4 +43,7 @@ RUN chown -R www-data:www-data /var/www \
 # Expose port (FPM runs internally, not directly exposed usually)
 EXPOSE 9000
 
-CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000
+CMD composer install --no-interaction --prefer-dist \
+  && php artisan migrate --force \
+  && php artisan db:seed --force \
+  && php artisan serve --host=0.0.0.0 --port=8000

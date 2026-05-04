@@ -5,10 +5,13 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/var/www
+      - backend_vendor:/var/www/vendor
     working_dir: /var/www
     depends_on:
-      - mysql
-      - redis
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       DB_CONNECTION: mysql
       DB_HOST: mysql
@@ -19,6 +22,11 @@ services:
       CACHE_STORE: redis
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/reports"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   client:
     build: ./client
@@ -26,10 +34,11 @@ services:
       - "3000:3000"
     volumes:
       - ./client:/app
-      - /app/node_modules
+      - client_node_modules:/app/node_modules
     working_dir: /app
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     environment:
       INTERNAL_API_URL: http://backend:8000/api
       NEXT_PUBLIC_API_URL: http://localhost:8000/api
@@ -45,11 +54,23 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
 volumes:
   mysql_data:
+  backend_vendor:
+  client_node_modules:

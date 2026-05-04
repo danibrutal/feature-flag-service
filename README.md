@@ -32,7 +32,6 @@ docker compose up --build
 Apps:
 
 - Client: http://localhost:3000/reports
-- Admin: http://localhost:8000/admin/feature-flags
 - API: http://localhost:8000/api/feature-flags
 
 ## Feature Flags
