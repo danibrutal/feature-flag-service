@@ -2,6 +2,8 @@
   border: var(--control-border);
   border-radius: var(--control-radius);
   color: var(--color-text);
+  display: block;
   font: inherit;
   padding: var(--control-padding-block);
+  width: 100%;
 }

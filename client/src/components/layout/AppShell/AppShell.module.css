@@ -1,5 +1,6 @@
 .shell {
   max-width: var(--page-max-width);
+  min-width: var(--page-min-width);
   margin: 0 auto;
   padding: var(--page-padding-block) var(--page-padding-inline);
 }
