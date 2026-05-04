@@ -51,6 +51,12 @@ export default async function ReportDetailPage({ params }: Props) {
               <strong>Severity:</strong> {report.damageSeverity}
             </p>
           </FeatureGate>
+          <FeatureGate flags={flags} flag={FLAGS.SHOW_INTERNAL_NOTES_PANEL}>
+            <Card>
+              <h2>Internal notes</h2>
+              <p>Only visible when this flag is enabled.</p>
+            </Card>
+          </FeatureGate>
           <p>{report.description}</p>
         </Stack>
       </Card>

@@ -29,6 +29,8 @@
     transparent 80%
   );
 
+  --button-radius: var(--radius-pill);
+
   --control-radius: var(--radius-sm);
   --control-padding-block: var(--space-3);
   --control-padding-inline: var(--space-4);
