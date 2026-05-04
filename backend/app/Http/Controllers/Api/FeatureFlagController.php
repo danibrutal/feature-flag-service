@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FeatureFlag;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Cache;
 
 class FeatureFlagController extends Controller
 {
@@ -14,15 +14,21 @@ class FeatureFlagController extends Controller
     {
         $now = Carbon::now();
         $userId = $request->query('user_id', 'anonymous');
+        $cacheKey = "feature-flags:{$userId}";
 
-        $flags = FeatureFlag::all()
-            ->mapWithKeys(function (FeatureFlag $flag) use ($now, $userId) {
-                return [
-                    $flag->key => $this->evaluateFlag($flag, $now, $userId),
-                ];
-            });
 
-        return response()->json($flags);
+        return Cache::remember($cacheKey, now()->addSeconds(30), function () use ($userId) {
+            $now = Carbon::now();
+
+            $flags = FeatureFlag::all()
+                ->mapWithKeys(function (FeatureFlag $flag) use ($now, $userId) {
+                    return [
+                        $flag->key => $this->evaluateFlag($flag, $now, $userId),
+                    ];
+                });
+
+            return response()->json($flags);
+        });
     }
 
     private function evaluateFlag(FeatureFlag $flag, Carbon $now, string $userId): bool

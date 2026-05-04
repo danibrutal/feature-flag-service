@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\FeatureFlag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FeatureFlagController extends Controller
 {
@@ -35,6 +36,8 @@ class FeatureFlagController extends Controller
         $data['enabled'] = $request->boolean('enabled');
 
         FeatureFlag::create($data);
+
+        Cache::flush();
 
         return redirect()
             ->route('admin.feature-flags.index')
@@ -70,6 +73,8 @@ class FeatureFlagController extends Controller
 
         $featureFlag->update($data);
 
+        Cache::flush();
+
         return redirect()
             ->route('admin.feature-flags.index')
             ->with('success', 'Feature flag updated.');
@@ -81,6 +86,7 @@ class FeatureFlagController extends Controller
     public function destroy(FeatureFlag $featureFlag)
     {
         $featureFlag->delete();
+        Cache::flush();
 
         return redirect()
             ->route('admin.feature-flags.index')
