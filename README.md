@@ -87,3 +87,7 @@ If a flag changes after the UI is rendered:
 - Reports API is minimal: no auth and no persistence beyond basics.
 - Feature flags are evaluated per request and optimized via Redis.
 - No real user system: `user_id` is mocked in the client.
+
+## AI Assistance
+
+I used ChatGPT and Codex to assist with code generation and documentation while building this assignment.
