@@ -1,5 +1,8 @@
 import { notFound } from "next/navigation";
 import { mockReports } from "@/lib/reports/mockReports";
+import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Stack } from "@/components/layout/Stack";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -18,18 +21,23 @@ export default async function EditReportPage({ params }: Props) {
   }
 
   return (
-    <main>
-      <h1>Edit Damage Report</h1>
+    <AppShell>
+      <PageHeader
+        title="Edit Damage Report"
+        description={`Update details for ${report.vehicle}.`}
+      />
 
       <Card>
         <form>
-          <Input name="title" defaultValue={report.title} />
-          <Input name="vehicle" defaultValue={report.vehicle} />
-          <Textarea name="description" defaultValue={report.description} />
+          <Stack>
+            <Input name="title" defaultValue={report.title} />
+            <Input name="vehicle" defaultValue={report.vehicle} />
+            <Textarea name="description" defaultValue={report.description} />
 
-          <Button type="submit">Update report</Button>
+            <Button type="submit">Update report</Button>
+          </Stack>
         </form>
       </Card>
-    </main>
+    </AppShell>
   );
 }

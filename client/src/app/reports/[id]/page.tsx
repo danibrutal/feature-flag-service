@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { mockReports } from "@/lib/reports/mockReports";
+import { AppShell } from "@/components/layout/AppShell";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Stack } from "@/components/layout/Stack";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -18,25 +21,31 @@ export default async function ReportDetailPage({ params }: Props) {
   }
 
   return (
-    <main>
-      <h1>{report.title}</h1>
+    <AppShell>
+      <PageHeader
+        title={report.title}
+        description="Review the submitted vehicle damage report."
+        action={
+          <Link href={`/reports/${report.id}/edit`}>
+            <Button>Edit report</Button>
+          </Link>
+        }
+      />
 
       <Card>
-        <p>
-          <strong>Vehicle:</strong> {report.vehicle}
-        </p>
-        <p>
-          <strong>Status:</strong> <Badge>{report.status}</Badge>
-        </p>
-        <p>
-          <strong>Severity:</strong> {report.damageSeverity}
-        </p>
-        <p>{report.description}</p>
-
-        <Link href={`/reports/${report.id}/edit`}>
-          <Button>Edit report</Button>
-        </Link>
+        <Stack>
+          <p>
+            <strong>Vehicle:</strong> {report.vehicle}
+          </p>
+          <p>
+            <strong>Status:</strong> <Badge>{report.status}</Badge>
+          </p>
+          <p>
+            <strong>Severity:</strong> {report.damageSeverity}
+          </p>
+          <p>{report.description}</p>
+        </Stack>
       </Card>
-    </main>
+    </AppShell>
   );
 }
