@@ -1,0 +1,7 @@
+.input {
+  border: var(--control-border);
+  border-radius: var(--control-radius);
+  color: var(--color-text);
+  font: inherit;
+  padding: var(--control-padding-block);
+}

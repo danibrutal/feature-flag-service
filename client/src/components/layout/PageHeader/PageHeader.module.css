@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--page-header-gap);
+  margin-bottom: var(--page-header-margin-block-end);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: var(--font-size-heading-lg);
+}
+
+.header p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-primary);
+}

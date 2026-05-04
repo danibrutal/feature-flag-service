@@ -1,0 +1,10 @@
+.button {
+  border: 0;
+  border-radius: var(--control-radius);
+  background: var(--color-primary);
+  color: var(--color-secondary);
+  cursor: pointer;
+  font: inherit;
+  font-weight: var(--font-weight-semibold);
+  padding: var(--control-padding-block) var(--control-padding-inline);
+}
