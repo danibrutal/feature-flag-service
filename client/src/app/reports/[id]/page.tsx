@@ -7,6 +7,9 @@ import { Stack } from "@/components/layout/Stack";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { FeatureGate } from "@/lib/feature-flags/FeatureGate";
+import { FLAGS } from "@/lib/feature-flags/flags";
+import { getFeatureFlags } from "@/lib/feature-flags/getFeatureFlags";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -15,6 +18,7 @@ type Props = {
 export default async function ReportDetailPage({ params }: Props) {
   const { id } = await params;
   const report = mockReports.find((item) => item.id === id);
+  const flags = await getFeatureFlags();
 
   if (!report) {
     notFound();
@@ -26,9 +30,11 @@ export default async function ReportDetailPage({ params }: Props) {
         title={report.title}
         description="Review the submitted vehicle damage report."
         action={
-          <Link href={`/reports/${report.id}/edit`}>
-            <Button>Edit report</Button>
-          </Link>
+          <FeatureGate flags={flags} flag={FLAGS.ALLOW_REPORT_UPDATE}>
+            <Link href={`/reports/${report.id}/edit`}>
+              <Button>Edit report</Button>
+            </Link>
+          </FeatureGate>
         }
       />
 
@@ -40,9 +46,11 @@ export default async function ReportDetailPage({ params }: Props) {
           <p>
             <strong>Status:</strong> <Badge>{report.status}</Badge>
           </p>
-          <p>
-            <strong>Severity:</strong> {report.damageSeverity}
-          </p>
+          <FeatureGate flags={flags} flag={FLAGS.SHOW_DAMAGE_SEVERITY_BADGE}>
+            <p>
+              <strong>Severity:</strong> {report.damageSeverity}
+            </p>
+          </FeatureGate>
           <p>{report.description}</p>
         </Stack>
       </Card>

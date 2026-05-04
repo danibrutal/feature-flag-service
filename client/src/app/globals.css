@@ -1,6 +1,7 @@
 :root {
   --color-background: #fdfdfd;
   --color-text: #0e0035;
+  --color-text-muted: color-mix(in srgb, var(--color-text), transparent 35%);
   --color-primary: #00e8a6;
   --color-secondary: #0e0035;
 
@@ -43,6 +44,7 @@
   --badge-font-size: 0.875rem;
 
   --page-max-width: 960px;
+  --page-min-width: 480px;
   --page-padding-block: var(--space-12);
   --page-padding-inline: var(--space-6);
   --page-header-gap: var(--space-6);

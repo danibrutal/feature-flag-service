@@ -6,17 +6,25 @@ import { Stack } from "@/components/layout/Stack";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { FeatureGate } from "@/lib/feature-flags/FeatureGate";
+import { getFeatureFlags } from "@/lib/feature-flags/getFeatureFlags";
+import { FLAGS } from "@/lib/feature-flags/flags";
 
-export default function ReportsPage() {
+export default async function ReportsPage() {
+  const flags = await getFeatureFlags();
+  console.log("flags!", flags);
+
   return (
     <AppShell>
       <PageHeader
         title="Car Damage Reports"
         description="Create, review and update vehicle damage reports."
         action={
-          <Link href="/reports/new">
-            <Button>Create report</Button>
-          </Link>
+          <FeatureGate flags={flags} flag={FLAGS.ALLOW_REPORT_CREATE}>
+            <Link href="/reports/new">
+              <Button>Create report</Button>
+            </Link>
+          </FeatureGate>
         }
       />
 
